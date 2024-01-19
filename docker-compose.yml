@@ -1,0 +1,19 @@
+services:
+  discovery:
+    container_name: discovery
+    build: ./
+    ports:
+      - "8761:8761"
+    expose:
+      - "8761"
+    environment:
+      SPRING_PROFILES_ACTIVE: docker
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://discovery:8761/actuator/health"]
+      interval: 10s
+      retries: 3
+    networks:
+      - config-server_net-bridge
+networks:
+  config-server_net-bridge:
+    external: true
